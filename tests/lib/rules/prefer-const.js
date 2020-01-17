@@ -396,8 +396,8 @@ ruleTester.run("prefer-const", rule, {
 
         // https://github.com/eslint/eslint/issues/5837
         {
-            code: "/*eslint use-x:error*/ let x = 1",
-            output: "/*eslint use-x:error*/ const x = 1",
+            code: "/*eslint use-x:\"error\"*/ let x = 1",
+            output: "/*eslint use-x:\"error\"*/ const x = 1",
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier" }]
         },

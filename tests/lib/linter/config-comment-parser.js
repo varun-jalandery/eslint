@@ -17,7 +17,6 @@ const assert = require("chai").assert,
 //------------------------------------------------------------------------------
 
 describe("ConfigCommentParser", () => {
-
     let commentParser;
     const location = {
         start: {
@@ -31,94 +30,166 @@ describe("ConfigCommentParser", () => {
     });
 
     describe("parseJsonConfig", () => {
+        describe("when the value doesn't have braces", () => {
+            it("should parse JSON config with one item", () => {
+                const code = "no-alert:0";
+                const result = commentParser.parseJsonConfig(code, location);
 
-        it("should parse JSON config with one item", () => {
-            const code = "no-alert:0";
-            const result = commentParser.parseJsonConfig(code, location);
+                assert.deepStrictEqual(result, {
+                    success: true,
+                    config: {
+                        "no-alert": 0
+                    }
+                });
+            });
 
+            it("should parse JSON config with two items that are not comma-separated", () => {
+                const code = "no-alert:0 semi: 2";
+                const result = commentParser.parseJsonConfig(code, location);
 
-            assert.deepStrictEqual(result, {
-                success: true,
-                config: {
-                    "no-alert": 0
-                }
+                assert.deepStrictEqual(result, {
+                    success: true,
+                    config: {
+                        "no-alert": 0,
+                        semi: 2
+                    }
+                });
+            });
+
+            it("should parse JSON config with two comma-separated items", () => {
+                const code = "no-alert:0,semi: 2";
+                const result = commentParser.parseJsonConfig(code, location);
+
+                assert.deepStrictEqual(result, {
+                    success: true,
+                    config: {
+                        "no-alert": 0,
+                        semi: 2
+                    }
+                });
+            });
+
+            it("should parse JSON config with two items and a string severity", () => {
+                const code = "no-alert: \"off\",semi: 2";
+                const result = commentParser.parseJsonConfig(code, location);
+
+                assert.deepStrictEqual(result, {
+                    success: true,
+                    config: {
+                        "no-alert": "off",
+                        semi: 2
+                    }
+                });
+            });
+
+            it("should parse JSON config with two items and options", () => {
+                const code = "no-alert:\"off\", semi: [2, \"always\"]";
+                const result = commentParser.parseJsonConfig(code, location);
+
+                assert.deepStrictEqual(result, {
+                    success: true,
+                    config: {
+                        "no-alert": "off",
+                        semi: [2, "always"]
+                    }
+                });
+            });
+
+            it("should parse JSON config with two items and options from plugins", () => {
+                const code = "plugin/no-alert:\"off\", plugin/semi: [2, \"always\"]";
+                const result = commentParser.parseJsonConfig(code, location);
+
+                assert.deepStrictEqual(result, {
+                    success: true,
+                    config: {
+                        "plugin/no-alert": "off",
+                        "plugin/semi": [2, "always"]
+                    }
+                });
             });
         });
 
-        it("should parse JSON config with two items", () => {
-            const code = "no-alert:0 semi: 2";
-            const result = commentParser.parseJsonConfig(code, location);
+        describe("when the value has braces", () => {
+            it("should parse JSON config with one item", () => {
+                const code = "{no-alert:0}";
+                const result = commentParser.parseJsonConfig(code, location);
 
+                assert.deepStrictEqual(result, {
+                    success: true,
+                    config: {
+                        "no-alert": 0
+                    }
+                });
+            });
 
-            assert.deepStrictEqual(result, {
-                success: true,
-                config: {
-                    "no-alert": 0,
-                    semi: 2
-                }
+            it("should parse JSON config with two items that are not comma-separated", () => {
+                const code = "{no-alert:0 semi: 2}";
+                const result = commentParser.parseJsonConfig(code, location);
+
+                assert.deepStrictEqual(result, {
+                    success: true,
+                    config: {
+                        "no-alert": 0,
+                        semi: 2
+                    }
+                });
+            });
+
+            it("should parse JSON config with two comma-separated items", () => {
+                const code = "{no-alert:0,semi: 2}";
+                const result = commentParser.parseJsonConfig(code, location);
+
+                assert.deepStrictEqual(result, {
+                    success: true,
+                    config: {
+                        "no-alert": 0,
+                        semi: 2
+                    }
+                });
+            });
+
+            it("should parse JSON config with two items and a string severity", () => {
+                const code = "{ no-alert: \"off\",semi: 2 }";
+                const result = commentParser.parseJsonConfig(code, location);
+
+                assert.deepStrictEqual(result, {
+                    success: true,
+                    config: {
+                        "no-alert": "off",
+                        semi: 2
+                    }
+                });
+            });
+
+            it("should parse JSON config with two items and options", () => {
+                const code = "{ no-alert:\"off\", semi: [2, \"always\"] }";
+                const result = commentParser.parseJsonConfig(code, location);
+
+                assert.deepStrictEqual(result, {
+                    success: true,
+                    config: {
+                        "no-alert": "off",
+                        semi: [2, "always"]
+                    }
+                });
+            });
+
+            it("should parse JSON config with two items and options from plugins", () => {
+                const code = "{plugin/no-alert:\"off\", plugin/semi: [2, \"always\"]}";
+                const result = commentParser.parseJsonConfig(code, location);
+
+                assert.deepStrictEqual(result, {
+                    success: true,
+                    config: {
+                        "plugin/no-alert": "off",
+                        "plugin/semi": [2, "always"]
+                    }
+                });
             });
         });
-
-        it("should parse JSON config with two comma-separated items", () => {
-            const code = "no-alert:0,semi: 2";
-            const result = commentParser.parseJsonConfig(code, location);
-
-
-            assert.deepStrictEqual(result, {
-                success: true,
-                config: {
-                    "no-alert": 0,
-                    semi: 2
-                }
-            });
-        });
-
-        it("should parse JSON config with two items and a string severity", () => {
-            const code = "no-alert:off,semi: 2";
-            const result = commentParser.parseJsonConfig(code, location);
-
-
-            assert.deepStrictEqual(result, {
-                success: true,
-                config: {
-                    "no-alert": "off",
-                    semi: 2
-                }
-            });
-        });
-
-        it("should parse JSON config with two items and options", () => {
-            const code = "no-alert:off, semi: [2, always]";
-            const result = commentParser.parseJsonConfig(code, location);
-
-
-            assert.deepStrictEqual(result, {
-                success: true,
-                config: {
-                    "no-alert": "off",
-                    semi: [2, "always"]
-                }
-            });
-        });
-
-        it("should parse JSON config with two items and options from plugins", () => {
-            const code = "plugin/no-alert:off, plugin/semi: [2, always]";
-            const result = commentParser.parseJsonConfig(code, location);
-
-            assert.deepStrictEqual(result, {
-                success: true,
-                config: {
-                    "plugin/no-alert": "off",
-                    "plugin/semi": [2, "always"]
-                }
-            });
-        });
-
-
     });
 
     describe("parseStringConfig", () => {
-
         const comment = {};
 
         it("should parse String config with one item", () => {
@@ -195,7 +266,6 @@ describe("ConfigCommentParser", () => {
     });
 
     describe("parseListConfig", () => {
-
         it("should parse list config with one item", () => {
             const code = "a";
             const result = commentParser.parseListConfig(code);
@@ -225,5 +295,4 @@ describe("ConfigCommentParser", () => {
             });
         });
     });
-
 });

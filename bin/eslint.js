@@ -5,7 +5,7 @@
  * @author Nicholas C. Zakas
  */
 
-/* eslint no-console:off */
+/* eslint no-console: "off" */
 
 "use strict";
 

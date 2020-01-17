@@ -203,7 +203,11 @@ Examples:
 
 #### `--rule`
 
-This option specifies rules to be used. These rules will be merged with any rules specified with configuration files. (You can use `--no-eslintrc` to change that behavior.) To define multiple rules, separate them using commas, or use the option multiple times. The [levn](https://github.com/gkz/levn#levn--) format is used for specifying the rules.
+This option specifies rules to be used. These rules will be merged with any rules specified with configuration files. (You can use `--no-eslintrc` to change that behavior.) To define multiple rules, separate them using commas, or use the option multiple times. The configuration is parsed as [JSON5](https://json5.org/) with the following exceptions:
+
+1. Does not require the configuration to be wrapped in curly braces
+1. Allows non-quoted property names - e.g. `"no-alert: 0"`
+1. Allows key-value pairs to not be comma-separated - e.g. `'"no-alert":0 semi:2'`
 
 If the rule is defined within a plugin, you have to prefix the rule ID with the plugin name and a `/`.
 

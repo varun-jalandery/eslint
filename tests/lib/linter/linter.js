@@ -1681,7 +1681,7 @@ describe("Linter", () => {
 
         it("should report a violation when the config violates a rule's schema", () => {
             assert.deepStrictEqual(
-                linter.verify("/* eslint no-alert: [error, {nonExistentPropertyName: true}]*/", {}),
+                linter.verify("/* eslint no-alert: ['error', {nonExistentPropertyName: true}]*/", {}),
                 [
                     {
                         severity: 2,
@@ -1690,7 +1690,7 @@ describe("Linter", () => {
                         line: 1,
                         column: 1,
                         endLine: 1,
-                        endColumn: 63,
+                        endColumn: 65,
                         nodeType: null
                     }
                 ]
@@ -2672,7 +2672,7 @@ describe("Linter", () => {
              * first part only as defined in the
              * parseJsonConfig function in lib/eslint.js
              */
-            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":'1'':/u);
+            assert.match(messages[0].message, /^Configuration for rule "no-alert" is invalid:/u);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 1);
 
@@ -2682,7 +2682,7 @@ describe("Linter", () => {
         });
 
         it("should report a violation", () => {
-            const code = "/*eslint no-alert:abc*/ alert('test');";
+            const code = "/*eslint no-alert:\"abc\" */ alert('test');";
 
             const config = { rules: { "no-alert": 1 } };
 
@@ -2697,7 +2697,7 @@ describe("Linter", () => {
              * first part only as defined in the
              * parseJsonConfig function in lib/eslint.js
              */
-            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":abc':/u);
+            assert.match(messages[0].message, /^Configuration for rule "no-alert" is invalid:/u);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 1);
 
@@ -2722,7 +2722,7 @@ describe("Linter", () => {
              * first part only as defined in the
              * parseJsonConfig function in lib/eslint.js
              */
-            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":0 2':/u);
+            assert.match(messages[0].message, /^Failed to parse JSON from 'no-alert:0 2':/u);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 1);
 
