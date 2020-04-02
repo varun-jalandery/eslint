@@ -84,106 +84,90 @@ module.exports = {
         {
             files: ["lib/*"],
             rules: {
-                "no-restricted-modules": ["error", {
-                    patterns: [
-                        ...internalFiles
-                    ]
-                }]
+                "node/no-restricted-require": ["error", [
+                    ...internalFiles
+                ]]
             }
         },
         {
             files: ["lib/cli-engine/**/*"],
             rules: {
-                "no-restricted-modules": ["error", {
-                    patterns: [
-                        ...internalFiles,
-                        "**/init"
-                    ]
-                }]
+                "node/no-restricted-require": ["error", [
+                    ...internalFiles,
+                    "**/init"
+                ]]
             }
         },
         {
             files: ["lib/init/**/*"],
             rules: {
-                "no-restricted-modules": ["error", {
-                    patterns: [
-                        ...internalFiles,
-                        "**/rule-tester"
-                    ]
-                }]
+                "node/no-restricted-require": ["error", [
+                    ...internalFiles,
+                    "**/rule-tester"
+                ]]
             }
         },
         {
             files: ["lib/linter/**/*"],
             rules: {
-                "no-restricted-modules": ["error", {
-                    patterns: [
-                        ...internalFiles,
-                        "fs",
-                        "**/cli-engine",
-                        "**/init",
-                        "**/rule-tester"
-                    ]
-                }]
+                "node/no-restricted-require": ["error", [
+                    ...internalFiles,
+                    "fs",
+                    "**/cli-engine",
+                    "**/init",
+                    "**/rule-tester"
+                ]]
             }
         },
         {
             files: ["lib/rules/**/*"],
             rules: {
-                "no-restricted-modules": ["error", {
-                    patterns: [
-                        ...internalFiles,
-                        "fs",
-                        "**/cli-engine",
-                        "**/init",
-                        "**/linter",
-                        "**/rule-tester",
-                        "**/source-code"
-                    ]
-                }]
+                "node/no-restricted-require": ["error", [
+                    ...internalFiles,
+                    "fs",
+                    "**/cli-engine",
+                    "**/init",
+                    "**/linter",
+                    "**/rule-tester",
+                    "**/source-code"
+                ]]
             }
         },
         {
             files: ["lib/shared/**/*"],
             rules: {
-                "no-restricted-modules": ["error", {
-                    patterns: [
-                        ...internalFiles,
-                        "**/cli-engine",
-                        "**/init",
-                        "**/linter",
-                        "**/rule-tester",
-                        "**/source-code"
-                    ]
-                }]
+                "node/no-restricted-require": ["error", [
+                    ...internalFiles,
+                    "**/cli-engine",
+                    "**/init",
+                    "**/linter",
+                    "**/rule-tester",
+                    "**/source-code"
+                ]]
             }
         },
         {
             files: ["lib/source-code/**/*"],
             rules: {
-                "no-restricted-modules": ["error", {
-                    patterns: [
-                        ...internalFiles,
-                        "fs",
-                        "**/cli-engine",
-                        "**/init",
-                        "**/linter",
-                        "**/rule-tester",
-                        "**/rules"
-                    ]
-                }]
+                "node/no-restricted-require": ["error", [
+                    ...internalFiles,
+                    "fs",
+                    "**/cli-engine",
+                    "**/init",
+                    "**/linter",
+                    "**/rule-tester",
+                    "**/rules"
+                ]]
             }
         },
         {
             files: ["lib/rule-tester/**/*"],
             rules: {
-                "no-restricted-modules": ["error", {
-                    patterns: [
-                        ...internalFiles,
-                        "**/cli-engine",
-                        "**/init"
-                    ]
-                }]
+                "node/no-restricted-require": ["error", [
+                    ...internalFiles,
+                    "**/cli-engine",
+                    "**/init"
+                ]]
             }
         }
     ]
